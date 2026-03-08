@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>A4_visualization1</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: white;
+      color: #222;
+    }
+    .wrapper {
+      width: 98%;
+      margin: 14px auto 10px auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin: 0 0 14px 0;
+      line-height: 1.25;
+      font-weight: 600;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.20fr 1.40fr;
+      gap: 34px;
+      align-items: start;
+    }
+    #map {
+      height: 860px;
+      width: 100%;
+    }
+    #scatter {
+      height: 760px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>States with weaker local clinic access tend to send more residents across state lines</h1>
+    <div class="grid">
+      <div id="map"></div>
+      <div id="scatter"></div>
+    </div>
+  </div>
+
+  <script>
+    const records = [{"state": "Alabama", "women_no_clinic_pct": 59, "travel_out_pct": 47, "abbr": "AL"}, {"state": "Alaska", "women_no_clinic_pct": 33, "travel_out_pct": 7, "abbr": "AK"}, {"state": "Arizona", "women_no_clinic_pct": 18, "travel_out_pct": 6, "abbr": "AZ"}, {"state": "Arkansas", "women_no_clinic_pct": 86, "travel_out_pct": 37, "abbr": "AR"}, {"state": "California", "women_no_clinic_pct": 3, "travel_out_pct": 0, "abbr": "CA"}, {"state": "Colorado", "women_no_clinic_pct": 26, "travel_out_pct": 1, "abbr": "CO"}, {"state": "Connecticut", "women_no_clinic_pct": 0, "travel_out_pct": 6, "abbr": "CT"}, {"state": "Delaware", "women_no_clinic_pct": 19, "travel_out_pct": 44, "abbr": "DE"}, {"state": "District of Columbia", "women_no_clinic_pct": 0, "travel_out_pct": 45, "abbr": "DC"}, {"state": "Florida", "women_no_clinic_pct": 25, "travel_out_pct": 1, "abbr": "FL"}, {"state": "Georgia", "women_no_clinic_pct": 55, "travel_out_pct": 5, "abbr": "GA"}, {"state": "Hawaii", "women_no_clinic_pct": 5, "travel_out_pct": 2, "abbr": "HI"}, {"state": "Idaho", "women_no_clinic_pct": 67, "travel_out_pct": 26, "abbr": "ID"}, {"state": "Illinois", "women_no_clinic_pct": 32, "travel_out_pct": 1, "abbr": "IL"}, {"state": "Indiana", "women_no_clinic_pct": 66, "travel_out_pct": 31, "abbr": "IN"}, {"state": "Iowa", "women_no_clinic_pct": 65, "travel_out_pct": 12, "abbr": "IA"}, {"state": "Kansas", "women_no_clinic_pct": 60, "travel_out_pct": 4, "abbr": "KS"}, {"state": "Kentucky", "women_no_clinic_pct": 82, "travel_out_pct": 39, "abbr": "KY"}, {"state": "Louisiana", "women_no_clinic_pct": 75, "travel_out_pct": 21, "abbr": "LA"}, {"state": "Maine", "women_no_clinic_pct": 16, "travel_out_pct": 5, "abbr": "ME"}, {"state": "Maryland", "women_no_clinic_pct": 23, "travel_out_pct": 17, "abbr": "MD"}, {"state": "Massachusetts", "women_no_clinic_pct": 14, "travel_out_pct": 6, "abbr": "MA"}, {"state": "Michigan", "women_no_clinic_pct": 34, "travel_out_pct": 1, "abbr": "MI"}, {"state": "Minnesota", "women_no_clinic_pct": 58, "travel_out_pct": 3, "abbr": "MN"}, {"state": "Mississippi", "women_no_clinic_pct": 92, "travel_out_pct": 44, "abbr": "MS"}, {"state": "Missouri", "women_no_clinic_pct": 94, "travel_out_pct": 99, "abbr": "MO"}, {"state": "Montana", "women_no_clinic_pct": 47, "travel_out_pct": 3, "abbr": "MT"}, {"state": "Nebraska", "women_no_clinic_pct": 39, "travel_out_pct": 8, "abbr": "NE"}, {"state": "Nevada", "women_no_clinic_pct": 9, "travel_out_pct": 4, "abbr": "NV"}, {"state": "New Hampshire", "women_no_clinic_pct": 30, "travel_out_pct": 23, "abbr": "NH"}, {"state": "New Jersey", "women_no_clinic_pct": 21, "travel_out_pct": 6, "abbr": "NJ"}, {"state": "New Mexico", "women_no_clinic_pct": 48, "travel_out_pct": 8, "abbr": "NM"}, {"state": "New York", "women_no_clinic_pct": 6, "travel_out_pct": 1, "abbr": "NY"}, {"state": "North Carolina", "women_no_clinic_pct": 53, "travel_out_pct": 2, "abbr": "NC"}, {"state": "North Dakota", "women_no_clinic_pct": 72, "travel_out_pct": 13, "abbr": "ND"}, {"state": "Ohio", "women_no_clinic_pct": 55, "travel_out_pct": 10, "abbr": "OH"}, {"state": "Oklahoma", "women_no_clinic_pct": 53, "travel_out_pct": 5, "abbr": "OK"}, {"state": "Oregon", "women_no_clinic_pct": 22, "travel_out_pct": 5, "abbr": "OR"}, {"state": "Pennsylvania", "women_no_clinic_pct": 38, "travel_out_pct": 14, "abbr": "PA"}, {"state": "Rhode Island", "women_no_clinic_pct": 36, "travel_out_pct": 17, "abbr": "RI"}, {"state": "South Carolina", "women_no_clinic_pct": 71, "travel_out_pct": 57, "abbr": "SC"}, {"state": "South Dakota", "women_no_clinic_pct": 76, "travel_out_pct": 84, "abbr": "SD"}, {"state": "Tennessee", "women_no_clinic_pct": 61, "travel_out_pct": 23, "abbr": "TN"}, {"state": "Texas", "women_no_clinic_pct": 44, "travel_out_pct": 8, "abbr": "TX"}, {"state": "Utah", "women_no_clinic_pct": 64, "travel_out_pct": 8, "abbr": "UT"}, {"state": "Vermont", "women_no_clinic_pct": 38, "travel_out_pct": 7, "abbr": "VT"}, {"state": "Virginia", "women_no_clinic_pct": 79, "travel_out_pct": 25, "abbr": "VA"}, {"state": "Washington", "women_no_clinic_pct": 9, "travel_out_pct": 5, "abbr": "WA"}, {"state": "West Virginia", "women_no_clinic_pct": 90, "travel_out_pct": 52, "abbr": "WV"}, {"state": "Wisconsin", "women_no_clinic_pct": 68, "travel_out_pct": 17, "abbr": "WI"}, {"state": "Wyoming", "women_no_clinic_pct": 96, "travel_out_pct": 88, "abbr": "WY"}];
+    const colorscale = [[0.0, "#fff5eb"], [0.15, "#fee8c8"], [0.3, "#fdd49e"], [0.45, "#fdbb84"], [0.6, "#fc8d59"], [0.75, "#ef6548"], [0.9, "#d7301f"], [1.0, "#990000"]];
+
+    const locations = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
+    const stateNames = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+    const xvals = [59, 33, 18, 86, 3, 26, 0, 19, 0, 25, 55, 5, 67, 32, 66, 65, 60, 82, 75, 16, 23, 14, 34, 58, 92, 94, 47, 39, 9, 30, 21, 48, 6, 53, 72, 55, 53, 22, 38, 36, 71, 76, 61, 44, 64, 38, 79, 9, 90, 68, 96];
+    const yvals = [47, 7, 6, 37, 0, 1, 6, 44, 45, 1, 5, 2, 26, 1, 31, 12, 4, 39, 21, 5, 17, 6, 1, 3, 44, 99, 3, 8, 4, 23, 6, 8, 1, 2, 13, 10, 5, 5, 14, 17, 57, 84, 23, 8, 8, 7, 25, 5, 52, 17, 88];
+
+    const labelX = [94, 96, 76, 71, 90, 59, 19, 92, 82, 86];
+    const labelY = [99, 88, 84, 57, 52, 47, 44, 44, 39, 37];
+    const labelText = ["Missouri", "Wyoming", "South Dakota", "South Carolina", "West Virginia", "Alabama", "Delaware", "Mississippi", "Kentucky", "Arkansas"];
+    const labelPos = ["top center", "top right", "top right", "top right", "top right", "top left", "top left", "top right", "top left", "top right"];
+
+    const mapLabelLat = [38.5, 43.0, 44.4, 33.8, 38.9, 32.8, 39.45, 32.7, 37.95, 34.9];
+    const mapLabelLon = [-92.5, -107.6, -100.2, -80.9, -79.0, -86.8, -74.9, -89.7, -84.6, -92.4];
+    const mapLabelText = ["MO", "WY", "SD", "SC", "WV", "AL", "DE", "MS", "KY", "AR"];
+
+    const xticks = [0, 20, 40, 60, 80, 100];
+    const yticks = [0, 20, 40, 60, 80, 100];
+    const cbTicks = [0, 20, 40, 60, 80, 100];
+
+    const zvals = yvals.slice();
+    const zmin = 0;
+    const zmax = 100;
+
+    const xMedian = 47;
+    const yMedian = 8;
+
+    const indexByAbbr = {};
+    records.forEach((r, i) => {
+      indexByAbbr[r.abbr] = i;
+    });
+
+    const mapDiv = document.getElementById("map");
+    const scatterDiv = document.getElementById("scatter");
+
+    const mapBase = {
+      type: "choropleth",
+      locationmode: "USA-states",
+      locations: locations,
+      z: zvals,
+      text: stateNames,
+      zmin: zmin,
+      zmax: zmax,
+      colorscale: colorscale,
+      showscale: true,
+      showlegend: false,
+      marker: {
+        line: {
+          color: "rgba(90,90,90,0.9)",
+          width: 0.8
+        }
+      },
+      colorbar: {
+        title: {
+          text: "Out-of-state care share (%)",
+          side: "top"
+        },
+        orientation: "h",
+        len: 0.67,
+        thickness: 18,
+        x: 0.52,
+        xanchor: "center",
+        y: 0.02,
+        tickvals: cbTicks,
+        ticks: "outside"
+      },
+      hovertemplate:
+        "<b>%{text}</b><br>" +
+        "Out-of-state care share: %{z:.1f}%<extra></extra>"
+    };
+
+    const mapLabels = {
+      type: "scattergeo",
+      mode: "text",
+      lat: mapLabelLat,
+      lon: mapLabelLon,
+      text: mapLabelText,
+      textfont: {
+        size: 11,
+        color: "#222"
+      },
+      hoverinfo: "skip",
+      showlegend: false
+    };
+
+    const mapHighlight = {
+      type: "choropleth",
+      locationmode: "USA-states",
+      locations: [],
+      z: [],
+      zmin: zmin,
+      zmax: zmax,
+      colorscale: colorscale,
+      showscale: false,
+      showlegend: false,
+      marker: {
+        line: {
+          color: "black",
+          width: 3.1
+        }
+      },
+      hoverinfo: "skip"
+    };
+
+    const mapLayout = {
+      title: {
+        text: "Interstate abortion travel by state",
+        x: 0.5,
+        xanchor: "center",
+        font: {size: 20}
+      },
+      geo: {
+        scope: "usa",
+        bgcolor: "white",
+        projection: {type: "albers usa"}
+      },
+      dragmode: false,
+      showlegend: false,
+      uirevision: "locked-map",
+      paper_bgcolor: "white",
+      plot_bgcolor: "white",
+      margin: {l: 28, r: 20, t: 52, b: 60},
+      font: {size: 14}
+    };
+
+    const scatterBase = {
+      type: "scatter",
+      mode: "markers",
+      x: xvals,
+      y: yvals,
+      text: stateNames,
+      customdata: locations,
+      showlegend: false,
+      marker: {
+        size: 11,
+        color: zvals,
+        cmin: zmin,
+        cmax: zmax,
+        colorscale: colorscale,
+        line: {
+          color: "rgba(40,40,40,0.72)",
+          width: 0.8
+        },
+        showscale: false,
+        opacity: 0.92
+      },
+      hovertemplate:
+        "<b>%{text}</b><br>" +
+        "% women 15–44 in county without clinic: %{x:.1f}%<br>" +
+        "Out-of-state care share: %{y:.1f}%<extra></extra>"
+    };
+
+    const scatterLabels = {
+      type: "scatter",
+      mode: "text",
+      x: labelX,
+      y: labelY,
+      text: labelText,
+      textposition: labelPos,
+      textfont: {
+        size: 12,
+        color: "#222"
+      },
+      hoverinfo: "skip",
+      showlegend: false,
+      cliponaxis: false
+    };
+
+    const scatterHighlight = {
+      type: "scatter",
+      mode: "markers+text",
+      x: [],
+      y: [],
+      text: [],
+      textposition: "top center",
+      textfont: {
+        size: 12,
+        color: "#111"
+      },
+      marker: {
+        size: 20,
+        color: [],
+        cmin: zmin,
+        cmax: zmax,
+        colorscale: colorscale,
+        line: {
+          color: "black",
+          width: 2.2
+        }
+      },
+      hoverinfo: "skip",
+      showlegend: false,
+      cliponaxis: false
+    };
+
+    const scatterLayout = {
+      title: {
+        text: "Local access and interstate travel",
+        x: 0.5,
+        xanchor: "center",
+        font: {size: 20}
+      },
+      dragmode: false,
+      showlegend: false,
+      uirevision: "locked-scatter",
+      xaxis: {
+        title: "% women ages 15–44 in a county without a clinic",
+        range: [-3, 103],
+        tickvals: xticks,
+        gridcolor: "rgba(0,0,0,0.06)",
+        zeroline: false,
+        fixedrange: true
+      },
+      yaxis: {
+        title: "% obtaining care out of state",
+        range: [-3, 102],
+        tickvals: yticks,
+        gridcolor: "rgba(0,0,0,0.06)",
+        zeroline: false,
+        fixedrange: true
+      },
+      paper_bgcolor: "white",
+      plot_bgcolor: "white",
+      margin: {l: 78, r: 56, t: 52, b: 62},
+      font: {size: 14},
+      shapes: [
+        {
+          type: "rect",
+          x0: xMedian,
+          x1: 103,
+          y0: yMedian,
+          y1: 102,
+          fillcolor: "rgba(214, 96, 77, 0.12)",
+          line: {width: 0},
+          layer: "below"
+        },
+        {
+          type: "line",
+          x0: xMedian,
+          x1: xMedian,
+          y0: -3,
+          y1: 102,
+          line: {color: "rgba(31,119,180,0.60)", width: 2, dash: "dash"}
+        },
+        {
+          type: "line",
+          x0: -3,
+          x1: 103,
+          y0: yMedian,
+          y1: yMedian,
+          line: {color: "rgba(31,119,180,0.60)", width: 2, dash: "dash"}
+        }
+      ],
+      annotations: [
+        {
+          x: xMedian + 1.8,
+          y: 72,
+          xref: "x",
+          yref: "y",
+          text: "Median local access barrier: " + xMedian.toFixed(1) + "%",
+          showarrow: false,
+          textangle: -90,
+          font: {size: 11, color: "rgba(31,119,180,0.85)"},
+          bgcolor: "rgba(255,255,255,0.55)"
+        },
+        {
+          x: 78,
+          y: yMedian + 1.2,
+          xref: "x",
+          yref: "y",
+          text: "Median interstate travel share: " + yMedian.toFixed(1) + "%",
+          showarrow: false,
+          font: {size: 11, color: "rgba(31,119,180,0.85)"},
+          bgcolor: "rgba(255,255,255,0.55)"
+        },
+        {
+          x: xMedian + (103 - xMedian) * 0.52,
+          y: yMedian + (102 - yMedian) * 0.66,
+          xref: "x",
+          yref: "y",
+          text: "Higher access barrier<br>and higher out-of-state travel",
+          showarrow: false,
+          align: "center",
+          font: {size: 12, color: "rgba(140,50,35,0.95)"},
+          bgcolor: "rgba(255,255,255,0.72)"
+        }
+      ]
+    };
+
+    const config = {
+      displayModeBar: false,
+      responsive: true,
+      scrollZoom: false,
+      doubleClick: false,
+      editable: false,
+      staticPlot: false
+    };
+
+    Plotly.newPlot("map", [mapBase, mapLabels, mapHighlight], mapLayout, config);
+    Plotly.newPlot("scatter", [scatterBase, scatterLabels, scatterHighlight], scatterLayout, config);
+
+    function highlightState(abbr) {
+      const i = indexByAbbr[abbr];
+      if (i === undefined) return;
+      const rec = records[i];
+
+      Plotly.restyle("map", {
+        locations: [[rec.abbr]],
+        z: [[rec.travel_out_pct]]
+      }, [2]);
+
+      Plotly.restyle("scatter", {
+        x: [[rec.women_no_clinic_pct]],
+        y: [[rec.travel_out_pct]],
+        text: [[rec.state]],
+        "marker.color": [[rec.travel_out_pct]]
+      }, [2]);
+    }
+
+    function clearHighlight() {
+      Plotly.restyle("map", {
+        locations: [[]],
+        z: [[]]
+      }, [2]);
+
+      Plotly.restyle("scatter", {
+        x: [[]],
+        y: [[]],
+        text: [[]],
+        "marker.color": [[]]
+      }, [2]);
+    }
+
+    mapDiv.on("plotly_hover", function(evt) {
+      if (!evt || !evt.points || !evt.points.length) return;
+      const abbr = evt.points[0].location;
+      highlightState(abbr);
+    });
+
+    scatterDiv.on("plotly_hover", function(evt) {
+      if (!evt || !evt.points || !evt.points.length) return;
+      const abbr = evt.points[0].customdata;
+      highlightState(abbr);
+    });
+
+    mapDiv.on("plotly_unhover", function() {
+      clearHighlight();
+    });
+
+    scatterDiv.on("plotly_unhover", function() {
+      clearHighlight();
+    });
+  </script>
+</body>
+</html>
