@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vis & Society Assignment 4</title>
+  <link rel="stylesheet" href="https://vis-society.github.io/assignments/report.css" />
+</head>
+
+<body>
+  <header>
+    <h1>
+      <small>Assignment 4</small>
+      Persuasive or Deceptive Visualization?
+    </h1>
+
+    <p>
+      <strong>Christian Emmanuel Lopez Angeles</strong> — <em>chris_la@mit.edu</em>
+    </p>
+  </header>
+
+  <main>
+    <h2>Proposition: States with weaker local clinic access tend to send more residents across state lines for abortion care.</h2>
+
+    <section>
+      <h3>FOR the Proposition</h3>
+
+      <figure>
+        <img src="A4_visualization1.png" alt="A linked U.S. map and scatterplot showing interstate abortion travel and local clinic access barriers by state." />
+        <figcaption>
+          This visualization argues that weaker local clinic access is associated with greater interstate abortion travel. The scatterplot compares the share of women ages 15–44 living in a county without a clinic to the share of residents obtaining abortion care out of state, while the linked map highlights where those high-travel states are located. By emphasizing the upper-right quadrant and labeling several extreme cases such as Missouri, Wyoming, and South Dakota, the figure encourages the viewer to read local access barriers as part of a broader pattern of cross-state dependency.
+          <br><br>
+          <a href="A4_visualization1.html" target="_blank">Open the interactive version of Visualization 1</a>.
+        </figcaption>
+      </figure>
+
+      <p>
+        Design Decisions and Rationale:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Used a population-based access measure instead of a raw clinic count (Score: +2).</strong>
+          I used the percentage of women ages 15–44 living in a county without a clinic rather than simply counting clinics by state. This makes the argument feel more grounded in lived access rather than infrastructure alone, since a single clinic count can hide how unevenly care is distributed relative to population.
+        </li>
+        <li>
+          <strong>Framed the chart with an assertive proposition-style title (Score: -0.5).</strong>
+          The title does not neutrally describe the variables; it already suggests the interpretation the reader should take away. This strengthens persuasion by encouraging the reader to look for confirming evidence, even though the underlying relationship is not perfectly uniform.
+        </li>
+        <li>
+          <strong>Used median guide lines and shaded the upper-right quadrant (Score: -0.5).</strong>
+          The dashed median lines divide the scatterplot into interpretable regions, and the highlighted upper-right quadrant visually privileges the states that support the claim. This does not alter the data, but it does direct attention toward the area most favorable to the proposition.
+        </li>
+        <li>
+          <strong>Labeled selected outlier states rather than all states (Score: +0.5).</strong>
+          I annotated states with especially high out-of-state travel, including Missouri and Wyoming, to make the pattern more memorable and legible. This helps the viewer quickly identify emblematic examples, though it also means the argument is partly carried by a curated subset of labels.
+        </li>
+        <li>
+          <strong>Linked a choropleth map to the scatterplot through interaction (Score: +1).</strong>
+          The interactive highlight between the map and scatterplot allows the reader to connect the geographic distribution of interstate abortion travel to the statistical relationship shown in the chart. This makes the figure more exploratory and persuasive because the same states can be inspected in both views without cluttering the display.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>AGAINST the Proposition</h3>
+
+      <figure>
+        <img src="A4_visualization2.png" alt="A multi-series comparison chart showing county-level clinic scarcity, women’s exposure to clinic-less counties, and out-of-state abortion travel across U.S. states." />
+        <figcaption>
+          This visualization challenges the proposition by showing that high clinic scarcity does not always produce the same level of abortion travel. States are ordered by county-level clinic scarcity, making it easy to compare places that look structurally similar in access terms but still differ substantially in the share of residents obtaining care out of state. By showing all states at once and juxtaposing county scarcity, women’s exposure, and travel outcomes, the figure argues that local clinic absence alone does not determine a single, uniform travel pattern.
+        </figcaption>
+      </figure>
+
+      <p>
+        Design Decisions and Rationale:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Sorted states by county-level clinic scarcity instead of alphabetically (Score: +1).</strong>
+          Ordering states by the percentage of counties without a known clinic makes comparison across similarly constrained states much easier. This supports the counterargument by revealing that states with nearly identical scarcity levels can still have very different travel outcomes.
+        </li>
+        <li>
+          <strong>Included two different access measures alongside the travel measure (Score: +2).</strong>
+          I used both the percentage of counties without a clinic and the percentage of women living in a clinic-less county. This complicates the notion of “access barrier” and helps argue that county scarcity and population exposure are related but not identical, which weakens any overly simple one-variable explanation.
+        </li>
+        <li>
+          <strong>Displayed all states rather than focusing only on selected examples (Score: +1.5).</strong>
+          Showing the full distribution reduces the appearance of cherry-picking and gives the counterargument more credibility. It makes the viewer confront variation across the entire dataset rather than relying on a few exceptional states.
+        </li>
+        <li>
+          <strong>Labeled every travel dot with its exact percentage (Score: 0).</strong>
+          This choice makes the variation in out-of-state travel explicit and supports the claim that similar scarcity does not always translate into similar travel. At the same time, it increases visual density and can make the chart feel crowded, so it improves evidential detail more than elegance.
+        </li>
+        <li>
+          <strong>Used a cautious title that emphasizes inconsistency rather than total negation (Score: +1).</strong>
+          Instead of claiming there is no relationship at all, the title argues that the relationship is not consistent. This was a more defensible rhetorical move because the data do show some broad association, but not one that is uniform enough to sustain a simple deterministic claim.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Final Reflection</h2>
+
+      <p>
+        This assignment made it clear to me that persuasive visualization is not just about choosing a chart type; it is about deciding what counts as the “main story” in the data. In my first visualization, I emphasized a plausible general relationship between local clinic access barriers and interstate abortion travel by choosing a population-centered access variable, using an assertive title, and visually highlighting the quadrant that best supported the proposition. In my second visualization, I used the same dataset to complicate that story by showing that states with similar levels of clinic scarcity can still produce different travel outcomes. The most important thing I learned is that both views can feel reasonable, even when they lead the audience toward different conclusions.
+      </p>
+
+      <p>
+        What surprised me most was how much influence comes from decisions that do not falsify data at all: ordering, titling, annotation, selective labeling, and which variables are paired together. I do not think the ethical line is simply between “truth” and “lies.” A more realistic boundary is between helping viewers notice a defensible pattern and pushing them to overread what the data can actually support. For me, persuasive visualization becomes deceptive when design choices hide important uncertainty, suppress relevant counterexamples, or imply a stronger causal or universal relationship than the data justify. This assignment made that boundary feel much less abstract and much more practical.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
